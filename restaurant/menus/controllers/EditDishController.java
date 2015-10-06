@@ -1,6 +1,6 @@
 package restaurant.menus.controllers;
 
-import restaurant.core.DishFileWriterController;
+import restaurant.core.DishFileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import restaurant.core.Controller;
@@ -66,7 +66,7 @@ public class EditDishController extends Controller {
                 (ArrayList<String>)window.getIngredients());
         
         // on crée un écrivain spécialisé et on lui passe le dish
-        DishFileWriterController writer = new DishFileWriterController(dish);
+        DishFileWriter writer = new DishFileWriter(dish,"Exemples\\generated");
         
         // on fait écrire l'écrivain
         Writer.WriteStatus status = writer.tryWrite();// si il y a une erreur, c'est ici dedans que ça se passe
@@ -78,7 +78,7 @@ public class EditDishController extends Controller {
         MessagesForWriting.showMessage(status); 
     }
     
-    private Writer.WriteStatus hoverWrite(Writer.WriteStatus status,DishFileWriterController writer){
+    private Writer.WriteStatus hoverWrite(Writer.WriteStatus status,DishFileWriter writer){
         if(status == Writer.WriteStatus.ALLREADY_EXISTS){
             if(MessagesForWriting.showYesNoQuestion("Voulez vous quand même ajouter le plat ?")){
                return writer.hoverwrite();

@@ -13,7 +13,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
-import restaurant.crosplatformPathing.PathTranslator;
 
 /**
  *
@@ -25,28 +24,16 @@ public class FileWriter extends Writer {
         super(path);
     }
 
-    /**
-     * 
-     * @return 
-     */
-    public String getFolderPath() {
-        return new File(path).getParent();
-    }
-
     @Override
     public WriteStatus write(Iterator<String> contenu) {
         Path outFilePath = Paths.get(getPath());
         try (final OutputStreamWriter out = new OutputStreamWriter(Files.newOutputStream(outFilePath, StandardOpenOption.CREATE,StandardOpenOption.WRITE), "UTF-8")) {
             while (contenu.hasNext()) {
-//                if (!contenu.next().equals("\u001a")) {
                     String line = contenu.next() + "\r\n";
                     out.write(line);
-//                }
-//                else{
-//                    out.write("\u001a".getBytes());
-//                }
             }
-            return WriteStatus.SUCEED;
+            //out.write("\u001a");// EOF
+            return WriteStatus.SUCEED.addMessage("Sauvegarde effectuée");
         } catch (IOException ex) {
             return WriteStatus.OUT_FILE_PATH_NOT_FOUND.addMessage(ex.getMessage());
         } catch (Exception ex) {
@@ -56,6 +43,11 @@ public class FileWriter extends Writer {
 
     @Override
     public WriteStatus write(String content) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public WriteStatus write() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import restaurant.crosplatformPathing.PathTranslator;
 import restaurant.models.work.Dish;
-import restaurant.core.DishFileWriterController;
+import restaurant.core.DishFileWriter;
 import restaurant.models.writers.Writer;
 
 /**
@@ -28,7 +28,7 @@ public class DemoDishFileWriter {
         
         String outFilePath = String.format("Exemples\\generated\\%d\\%s",dish.getId(),dish.getNom());
 
-        DishFileWriterController writer = new DishFileWriterController(outFilePath);
+        DishFileWriter writer = new DishFileWriter(dish,outFilePath);
         writer.setDish(dish);
         Writer.WriteStatus status;
 

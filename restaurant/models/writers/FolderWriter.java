@@ -15,16 +15,20 @@ import restaurant.crosplatformPathing.PathTranslator;
  */
 public class FolderWriter extends Writer {
 
+    public FolderWriter(String path) {
+        super(path);
+    }
+
     /**
      * Crée une arborescence
-     * @param contenu
+     * @param folders
      * @return 
      */
     @Override
-    public Writer.WriteStatus write(Iterator<String> contenu) {
+    public Writer.WriteStatus write(Iterator<String> folders) {
         WriteStatus status = WriteStatus.READY;
-        while (contenu.hasNext()) {
-            status = write(contenu.next());
+        while (folders.hasNext()) {
+            status = write(folders.next());
             if (status != WriteStatus.READY || status != WriteStatus.SUCEED) {
                 break;
             }
@@ -33,7 +37,12 @@ public class FolderWriter extends Writer {
     }
 
     @Override
-    public WriteStatus write(String content) {
+    public WriteStatus write(String stringFilePath) {
+        throw new UnsupportedOperationException("unimplemented");
+    }
+
+    @Override
+    public WriteStatus write() {
         if (!new File(PathTranslator.translate(getPath())).mkdirs()) {
             return WriteStatus.ALLREADY_EXISTS.addMessage("Entry allready exists !");
         }

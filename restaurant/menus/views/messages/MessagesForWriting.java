@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package restaurant.menus.views.messages;
 
 import javax.swing.JOptionPane;
@@ -10,7 +15,10 @@ import restaurant.models.writers.Writer;
  * @author MAZE2
  */
 public class MessagesForWriting {
-
+        /**
+     * permet d'indiquer l'état des opérations d'écriture
+     * @param status 
+     */
     public static void showMessage(Writer.WriteStatus status) {
 
         String title;
@@ -34,7 +42,6 @@ public class MessagesForWriting {
                 break;
         }
         javax.swing.JOptionPane.showMessageDialog(null, status.getMessage(), title, iconMessageBox);
-
     }
 
     public static boolean showYesNoQuestion(String question) {
@@ -43,6 +50,7 @@ public class MessagesForWriting {
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.YES_NO_OPTION);
         return JOptionPane.showConfirmDialog(optionPane, question) == JOptionPane.YES_OPTION;
-        
+
     }
+
 }
