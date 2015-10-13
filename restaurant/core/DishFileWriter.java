@@ -1,41 +1,29 @@
 package restaurant.core;
 
 //Contient les classes Files, Paths, etc.
-import java.io.File;
-import restaurant.crosplatformPathing.PathTranslator;
+import java.util.Iterator;
 import restaurant.models.work.Dish;
+import restaurant.models.work.IteratorTransformer;
+import restaurant.models.work.TypePlat;
 import restaurant.models.writers.FileWriter;
-import restaurant.models.writers.FolderWriter;
 import restaurant.models.writers.Writer;
 
-public class DishFileWriter {
+public class DishFileWriter extends FileWriter {
 
     private Dish dish;
-    private final FileWriter dishW;
-    private FolderWriter folderW;
 
-    public DishFileWriter(Dish dish,String directoryStringPathFile) {
-        StringBuilder sb = new StringBuilder(directoryStringPathFile);
-        sb
-                .append(directoryStringPathFile)
-                .append("\\").append(dish.getId())
-                .append("\\").append(dish.getId());
-                
-        String finalFilePath = PathTranslator.translate(sb.toString()); // le chemin final 
-        dishW = new FileWriter(finalFilePath);
-        this.dish = dish;
+    public DishFileWriter(String directoryStringPathFile) {
+        super(directoryStringPathFile);
     }
 
     public Writer.WriteStatus tryWrite() {
-        Writer.WriteStatus status;
+        WriteStatus status = super.prepareFolder(dish.getId());
         try {
-            String destination = new File(dishW.getPath()).getParent(); // le dossier de destination
-            folderW = new FolderWriter(destination);
-            
-            status = folderW.write();                   // écriture du dossier
-            
-            if( status == Writer.WriteStatus.SUCEED){   // si 'écriture du dossier à réussi : repertoir non utilisé
-                status = dishW.write(dish.iterator());  // écrire toutes les lignes
+            if (dish.getIngredients().isEmpty()) {
+                super.write((Iterator<String>) null);    // va provoquer l'exception car on n'a pas assez de données
+            }
+            if (status == Writer.WriteStatus.SUCEED) {                           // si 'écriture du dossier à réussi : repertoir non utilisé
+                status = write(IteratorTransformer.getFrom(dish));        // écrire toutes les lignes
             }
         } catch (NullPointerException ex) {
             status = Writer.WriteStatus.TERMINATE_BADLY.addMessage(ex.getMessage());
@@ -51,6 +39,6 @@ public class DishFileWriter {
     }
 
     public Writer.WriteStatus hoverwrite() {
-        return dishW.write(dish.iterator());
+        return super.write(IteratorTransformer.getFrom(dish));
     }
 }

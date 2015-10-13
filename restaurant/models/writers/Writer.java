@@ -22,13 +22,13 @@ public abstract class Writer{
         return path;
     }
 
-    public WriteStatus write(Iterator<String> content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public final void setPath(String path) {
+        this.path = path;
     }
+    
+    public abstract WriteStatus write(Iterator<String> content);
 
-    public WriteStatus write(String content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract WriteStatus write(String content);
     
     public abstract WriteStatus write();
     
@@ -36,7 +36,8 @@ public abstract class Writer{
         ALLREADY_EXISTS,
         SUCEED,
         OUT_FILE_PATH_NOT_FOUND,
-        TERMINATE_BADLY, READY;
+        TERMINATE_BADLY, 
+        READY, NOTHING_TO_WRITE;
         
         private String message;
         

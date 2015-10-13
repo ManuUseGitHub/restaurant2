@@ -15,7 +15,12 @@ public class Restaurant {
         MainWindow mainWindow = new MainWindow();
         EditMenuWindow editMenuWindow = new EditMenuWindow(mainWindow);
         editMenuWindow.setDishTypes(TypePlat.getAllTypes());
-        editMenuWindow.setDishList(Arrays.asList("d","e","f"));
+        
+        // TODO: generer les fichiers à partir de l'index est les passer ici à la place de cette liste
+        List<String> dishsRegistered = Arrays.asList("Navais","Choux Farcis","gelée de betterave","Purrée aux amandes");
+        
+        editMenuWindow.setDishList(dishsRegistered);
+        
         editMenuWindow.setDishes(new TreeMap<String, List<String>>());
         appController.register(new MainWindowController(mainWindow));
         appController.register(new EditDishController(new EditDishWindow(mainWindow)));

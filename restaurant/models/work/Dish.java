@@ -14,15 +14,22 @@ import restaurant.models.Consommable;
  *
  * @author MAZE2
  */
-public class Dish extends Consommable implements IPlat,Iterable<String> {
+public class Dish extends Consommable implements IPlat {
+
     private List<String> ingredients;
 
-    public Dish(long id, String name, float price, ArrayList<String> ingredients) {
+    public Dish(long id, String name, float price, List<String> ingredients) {
         super(id, name, price);
-        this.ingredients = ingredients;
+        this.ingredients = new ArrayList<>();
+
+        for (String ingredient : ingredients) {
+            if (ingredient.trim().length() > 2) {        // un ingrédient doit au moins avoir 3 lettres 
+                this.ingredients.add(ingredient.trim());
+            }
+        }
     }
 
-    public Dish(String name, float price, ArrayList<String> ingredients) {
+    public Dish(String name, float price, List<String> ingredients) {
         this(name.hashCode(), name, price, ingredients);
     }
 
@@ -33,30 +40,12 @@ public class Dish extends Consommable implements IPlat,Iterable<String> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
-        Iterator<String> iter = iterator();
-        while(iter.hasNext()){
+
+        Iterator<String> iter = IteratorTransformer.getFrom(this);
+        while (iter.hasNext()) {
             sb.append(iter.next()).append('\n');
         }
         return sb.toString();
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        ArrayList<String> lignes = new ArrayList<>();
-        lignes.add("Plat");
-        lignes.add("\t\tId:" + getId());
-        lignes.add("\t\tName:" + getNom());
-        lignes.add("\t\tPrice:" + getPrix());
-        lignes.add("\t\tIngredients:");
-
-        Iterator<String> navigator = ingredients.iterator();
-        while (navigator.hasNext()) {
-            lignes.add("\t\t\t" + navigator.next());
-        }
-        //lignes.add("\u001a"); // EOF
-
-        return lignes.iterator();
     }
 
     @Override
@@ -66,6 +55,10 @@ public class Dish extends Consommable implements IPlat,Iterable<String> {
 
     @Override
     public void setIngredients(List<String> ingredients) {
-        this.ingredients = (ArrayList<String>) ingredients;
+        this.ingredients = ingredients;
+    }
+
+    public void addIngredient(String ingredient) {
+        this.ingredients.add(ingredient);
     }
 }

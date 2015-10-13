@@ -33,6 +33,7 @@ public class MainWindow extends javax.swing.JFrame implements MainWindowControll
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
         scrollPane = new javax.swing.JScrollPane();
         searchResult = new javax.swing.JList();
@@ -53,12 +54,21 @@ public class MainWindow extends javax.swing.JFrame implements MainWindowControll
             }
         });
 
+        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        searchField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 204, 204))); // NOI18N
         searchField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 searchFieldKeyTyped(evt);
             }
         });
-        getContentPane().add(searchField, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(searchField, java.awt.BorderLayout.CENTER);
+
+        getContentPane().add(jPanel1, java.awt.BorderLayout.NORTH);
+
+        scrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        scrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Résultats", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 16), new java.awt.Color(204, 204, 204))); // NOI18N
 
         searchResult.setMinimumSize(new java.awt.Dimension(1024, 768));
         scrollPane.setViewportView(searchResult);
@@ -125,6 +135,7 @@ public class MainWindow extends javax.swing.JFrame implements MainWindowControll
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuItem newDishItem;
     private javax.swing.JMenuItem newMenuItem;

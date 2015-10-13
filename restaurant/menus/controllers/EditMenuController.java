@@ -2,6 +2,9 @@ package restaurant.menus.controllers;
 
 import java.util.*;
 import restaurant.core.Controller;
+import restaurant.core.MenuFileWriter;
+import restaurant.models.work.Menu;
+import restaurant.models.writers.Writer;
 
 /**
  *
@@ -65,6 +68,28 @@ public class EditMenuController extends Controller {
     }
 
     public void saveEvent() {
+        // on crée un dish à partir des valeurs de la vue
+        Map<String,List<String>> map = window.getDishes();
+        Menu menu = new Menu(
+                window.getName().hashCode(),
+                window.getName(),
+                window.getPrice(),
+                map);
+        
+        // on crée un écrivain spécialisé et on lui passe le dish
+        MenuFileWriter writer = new MenuFileWriter("Exemples");
+        writer.setMenu(menu);
+        
+        // on fait écrire l'écrivain
+        Writer.WriteStatus status = writer.tryWrite();// si il y a une erreur, c'est ici dedans que ça se passe
+        
+        /*
+        // on fait afficher le feedback 
+        MessagesForWriting.showMessage(status); 
+        status = hoverWrite(status, writer);
+        feedBack(status);
+        MessagesForWriting.showMessage(status); */
+        
         this.window.hide();
     }
 

@@ -5,7 +5,6 @@
  */
 package restaurant.models.work;
 
-import java.util.ArrayList;
 import java.util.List;
 import restaurant.models.IConsommable;
 
@@ -18,6 +17,4 @@ public interface IPlat extends IConsommable{
     List<String> getIngredients();
 
     void setIngredients(List<String> ingredients);
-
-    
 }

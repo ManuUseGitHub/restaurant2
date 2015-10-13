@@ -15,8 +15,8 @@ import restaurant.models.IConsommable;
  */
 public interface IMenu extends IConsommable{
 
-    List<String> getSteps(TypePlat step);
+    List<String> getSteps(String step);
 
-    void setSteps(TypePlat step,List<String> etape );
+    void AddToSteps(String step,List<String> etape );
     
 }

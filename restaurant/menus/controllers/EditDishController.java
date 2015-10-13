@@ -1,7 +1,6 @@
 package restaurant.menus.controllers;
 
 import restaurant.core.DishFileWriter;
-import java.util.ArrayList;
 import java.util.List;
 import restaurant.core.Controller;
 import restaurant.menus.views.messages.MessagesForWriting;
@@ -63,10 +62,11 @@ public class EditDishController extends Controller {
                 window.getName().hashCode(),
                 window.getName(),
                 window.getPrice(),
-                (ArrayList<String>)window.getIngredients());
+                window.getIngredients());
         
         // on crée un écrivain spécialisé et on lui passe le dish
-        DishFileWriter writer = new DishFileWriter(dish,"Exemples\\generated");
+        DishFileWriter writer = new DishFileWriter("Exemples");
+        writer.setDish(dish);
         
         // on fait écrire l'écrivain
         Writer.WriteStatus status = writer.tryWrite();// si il y a une erreur, c'est ici dedans que ça se passe

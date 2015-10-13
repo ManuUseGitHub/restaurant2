@@ -13,11 +13,8 @@ import restaurant.models.Reader.Reader.ReadStatus;
  * @author MAZE2
  */
 public interface IReader {
-
-    /**
-     * @return the target
-     */
-    List getContentRead();
+    
+    Object getResult();
 
     ReadStatus read();
 

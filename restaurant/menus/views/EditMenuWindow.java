@@ -6,6 +6,7 @@
 package restaurant.menus.views;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
@@ -182,10 +183,11 @@ public class EditMenuWindow extends javax.swing.JDialog implements EditMenuContr
     }//GEN-LAST:event_cancelActionPerformed
 
     private void addDishButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDishButtonActionPerformed
-        if (addedDishesModel.get((String) dishTypes.getSelectedItem()) == null) {
-            addedDishesModel.put((String) dishTypes.getSelectedItem(), new ArrayList<>());
+        String key = (String)dishTypes.getSelectedItem();
+        if (addedDishesModel.get(key) == null) {
+            addedDishesModel.put(key, new ArrayList<>());
         }
-        addedDishesModel.get((String) dishTypes.getSelectedItem()).add((String) dishes.getSelectedItem());
+        addedDishesModel.get(key).add((String) dishes.getSelectedItem());
         setDishes(addedDishesModel);
     }//GEN-LAST:event_addDishButtonActionPerformed
 
@@ -242,20 +244,26 @@ public class EditMenuWindow extends javax.swing.JDialog implements EditMenuContr
     }
 
     @Override
-    public void setDishes(Map<String, List<String>> value) {
-        addedDishesModel = value;
+    public void setDishes(Map<String, List<String>> etapes) {
+        addedDishesModel = etapes;
         StringBuilder sb = new StringBuilder();
         List<String> dishPerType;
         
-        for (String dishType : value.keySet()) {
-            if ((dishPerType = value.get(dishType)).size() > 0) {
-                sb.append(dishType).append('\n');
-                for (String aDish : dishPerType) {
-                    sb.append('\t').append(aDish).append('\n');
+        for (String dishKey : etapes.keySet()) {                    // foreach, la clé depuis le set
+            if ((dishPerType = etapes.get(dishKey)).size() > 0) {   // si le nombre d'entré pour un type de met du menu est > 0
+                sb.append(dishKey).append("\r\n");                 // on ajoute la clé(rubrique)
+                
+                for (String aDish : dishPerType) {                  // parcours de tous les dishs de la rubrique
+                    sb.append('\t').append(aDish).append("\r\n");   // on ajoute le dish sélectionné
                 }
             }
         }
-        addedDishes.setText(sb.toString());
+        addedDishes.setText(sb.toString());                         // mise en place d'une chaine formatée dans le composant graphique
+    }
+    
+    @Override
+    public String getName(){
+        return nameField.getText();
     }
 
     @Override

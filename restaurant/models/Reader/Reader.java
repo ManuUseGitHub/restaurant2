@@ -11,32 +11,30 @@ import java.util.List;
  *
  * @author MAZE2
  */
-class Reader  implements IReader{
+public abstract class Reader  implements IReader{
 
     private String inFilePath;
 
     public Reader(){
     }
     public Reader(String inFilePath){
+        this.inFilePath = inFilePath;
     }
     
     String getInFilePath() {
         return inFilePath;
     }
     
+    @Override
     public void setInFilePath(String inFilePath) {
        this.inFilePath  = inFilePath;
     }
 
     @Override
-    public List getContentRead() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract Object getResult();
 
     @Override
-    public ReadStatus read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract ReadStatus read();
 
     public enum ReadStatus {
         SUCCED,

@@ -14,15 +14,29 @@ import restaurant.crosplatformPathing.PathTranslator;
  * @author MAZE2
  */
 public class FolderWriter extends Writer {
+    private String outfilePath;
 
     public FolderWriter(String path) {
         super(path);
     }
 
+    public FolderWriter(String path, long id) {
+        this(path);
+        StringBuilder sb = new StringBuilder(path);
+        sb
+                .append("\\").append(id)
+                .append("\\").append(id);
+
+        String finalFilePath = PathTranslator.translate(sb.toString()); // le chemin final
+        setPath(new File(finalFilePath).getParent());
+        outfilePath = sb.toString();
+    }
+
     /**
      * Crée une arborescence
+     *
      * @param folders
-     * @return 
+     * @return
      */
     @Override
     public Writer.WriteStatus write(Iterator<String> folders) {
@@ -47,5 +61,12 @@ public class FolderWriter extends Writer {
             return WriteStatus.ALLREADY_EXISTS.addMessage("Entry allready exists !");
         }
         return WriteStatus.SUCEED;
+    }
+
+    /**
+     * @return the outfilePath
+     */
+    public String getOutfilePath() {
+        return outfilePath;
     }
 }

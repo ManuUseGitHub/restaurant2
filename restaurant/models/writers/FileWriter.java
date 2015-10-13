@@ -23,31 +23,51 @@ public class FileWriter extends Writer {
     public FileWriter(String path) {
         super(path);
     }
+    
+    private void cleanFolder(WriteStatus status) {
+        if (status != WriteStatus.SUCEED) {
+            // le dossier pour l'enregistrement sera supprimmé si il est vide (dossier vide = enregistrement avorté)
+            FolderSuppresser.SuppressIfExists(new File(getPath()).getParent()); 
+        }
+    }
 
+    public WriteStatus prepareFolder(long id) {
+
+        FolderWriter folderW = new FolderWriter(getPath(), id);     // creation de l'arborescence
+        setPath(folderW.getOutfilePath());                          // récupération du chemin de destination
+        return folderW.write();                                     // écriture du dossier
+
+    }
     @Override
     public WriteStatus write(Iterator<String> contenu) {
-        Path outFilePath = Paths.get(getPath());
-        try (final OutputStreamWriter out = new OutputStreamWriter(Files.newOutputStream(outFilePath, StandardOpenOption.CREATE,StandardOpenOption.WRITE), "UTF-8")) {
-            while (contenu.hasNext()) {
+        WriteStatus status = WriteStatus.SUCEED;
+        if (contenu != null) {
+            Path outFilePath = Paths.get(getPath());
+            try (final OutputStreamWriter out = new OutputStreamWriter(Files.newOutputStream(outFilePath, StandardOpenOption.CREATE, StandardOpenOption.WRITE), "UTF-8")) {
+                while (contenu.hasNext()) {
                     String line = contenu.next() + "\r\n";
                     out.write(line);
+                }
+                status.addMessage("Sauvegarde effectuée");
+            } catch (IOException ex) {
+                status = WriteStatus.OUT_FILE_PATH_NOT_FOUND.addMessage(ex.getMessage());
+            } catch (Exception ex) {
+                status = WriteStatus.TERMINATE_BADLY.addMessage(ex.getMessage());
             }
-            //out.write("\u001a");// EOF
-            return WriteStatus.SUCEED.addMessage("Sauvegarde effectuée");
-        } catch (IOException ex) {
-            return WriteStatus.OUT_FILE_PATH_NOT_FOUND.addMessage(ex.getMessage());
-        } catch (Exception ex) {
-            return WriteStatus.TERMINATE_BADLY.addMessage(ex.getMessage());
+        }else{
+            status = WriteStatus.NOTHING_TO_WRITE.addMessage("Il n'y a rien à écrire suite au manque de données");
         }
+        cleanFolder(status);
+        return status;
     }
 
     @Override
     public WriteStatus write(String content) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return write((Iterator<String>) null); // provoquera une erreur car la méthode n'est pas encore définie
     }
 
     @Override
     public WriteStatus write() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return write((Iterator<String>) null); // provoquera une erreur car la méthode n'est pas encore définie
     }
 }
